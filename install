@@ -1,0 +1,49 @@
+#!/bin/bash
+
+PROGRAMS=(
+    "alacritty"
+    "firefox"
+    "fuzzel"
+    "git"
+    "grimshot"
+    "helix"
+    "i3status-rust"
+    "lshw"
+    "neofetch"
+    "playerctl"
+    "python3"
+    "stow"
+    "sway"
+    "wdisplays"
+    "zoxide"
+    "zsh"
+)
+
+install_programs() {
+    echo "Installing programs..."
+    sudo dnf install -y "${PROGRAMS[@]}"
+}
+
+stow_dotfiles() {
+    DIRNAME="$(dirname "$0")"    
+    echo "Stowing dotfiles..."
+    stow -t "$HOME" "$DIRNAME"
+}
+
+dl_omz() {
+    echo "Cloning OMZ..."
+    git clone "https://github.com/ohmyzsh/ohmyzsh.git" "$HOME/.oh-my-zsh"
+}
+
+main() {
+    install_programs
+    stow_dotfiles
+    dl_omz
+    chsh -s /usr/bin/zsh
+    $HOME/.bin/fetch_potd
+    echo "Setup complete!"
+    neofetch
+}
+
+# Execute main function
+main

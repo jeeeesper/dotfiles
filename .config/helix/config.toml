@@ -1,0 +1,34 @@
+theme = "monokai_pro"
+#theme = "base16_terminal"
+
+[editor]
+line-number = "relative"
+shell = ["zsh", "-c"]
+color-modes = true
+cursorline = true
+preview-completion-insert = false
+bufferline = "multiple"
+#copilot-auto-render = false # defaults to true if omitted
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = true
+
+[editor.cursor-shape]
+insert = "bar"
+
+[editor.whitespace.render]
+tab = "all"
+
+[editor.indent-guides]
+render = true
+
+[editor.soft-wrap]
+enable = true
+
+#[keys.insert]
+#"C-w" = "copilot_apply_completion"  # technically only this mapping is necessary
+#"C-e" = "copilot_show_completion" # show a copilot completion  (if one exists) (only useful if auto-render is false)
+
+#[keys.normal]
+#"C-e" = "copilot_toggle_auto_render"

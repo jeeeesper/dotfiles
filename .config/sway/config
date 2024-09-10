@@ -1,0 +1,350 @@
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term alacritty
+set $menu bemenu-run -p ">"
+
+### Output configuration
+output * bg ~/wallpaper fill
+
+### Idle configuration
+set $lock 'swaylock -fFe -c `/home/jasper/.bin/rndrgb`'
+exec swayidle -w \
+		timeout 300 $lock \
+        timeout 310 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+        before-sleep $lock
+
+### Input configuration
+input type:keyboard {
+    xkb_layout "de"
+    xkb_options compose:caps
+    repeat_rate 40
+    repeat_delay 220
+}
+
+input type:touchpad {
+    natural_scroll enabled
+    click_method clickfinger
+}
+
+### Key bindings
+#
+# Basics:
+#
+    # Start a terminal
+    bindsym $mod+Return exec $term
+
+    # Kill focused window
+    bindsym $mod+Shift+q kill
+
+    # Start your launcher
+    bindsym $mod+d exec $menu
+
+    # Drag floating windows by holding down $mod and left mouse button.
+    # Resize them with right mouse button + $mod.
+    # Despite the name, also works for non-floating windows.
+    # Change normal to inverse to use left mouse button for resizing and right
+    # mouse button for dragging.
+    floating_modifier $mod normal
+
+    # Reload the configuration file
+    bindsym $mod+Shift+c reload
+
+#
+# Moving around:
+#
+    # Move your focus around
+    bindsym $mod+$left focus left
+    bindsym $mod+$down focus down
+    bindsym $mod+$up focus up
+    bindsym $mod+$right focus right
+    # Or use $mod+[up|down|left|right]
+    bindsym $mod+Left focus left
+    bindsym $mod+Down focus down
+    bindsym $mod+Up focus up
+    bindsym $mod+Right focus right
+
+    # Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+$left move left
+    bindsym $mod+Shift+$down move down
+    bindsym $mod+Shift+$up move up
+    bindsym $mod+Shift+$right move right
+    # Ditto, with arrow keys
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+
+	# Move the current workspace to another output
+    bindsym $mod+Control+Shift+$left move workspace to output left
+    bindsym $mod+Control+Shift+$down move workspace to output down
+    bindsym $mod+Control+Shift+$up move workspace to output up
+    bindsym $mod+Control+Shift+$right move workspace to output right
+    # Ditto, with arrow keys
+    bindsym $mod+Control+Shift+Left move workspace to output left
+    bindsym $mod+Control+Shift+Down move workspace to output down
+    bindsym $mod+Control+Shift+Up move workspace to output up
+    bindsym $mod+Control+Shift+Right move workspace to output right
+
+	bindsym $mod+comma workspace prev_on_output
+	bindsym $mod+period workspace next_on_output
+#
+# Workspaces:
+#
+    # Switch to workspace
+    bindsym $mod+1 workspace number 1
+    bindsym $mod+2 workspace number 2
+    bindsym $mod+3 workspace number 3
+    bindsym $mod+4 workspace number 4
+    bindsym $mod+5 workspace number 5
+    bindsym $mod+6 workspace number 6
+    bindsym $mod+7 workspace number 7
+    bindsym $mod+8 workspace number 8
+    bindsym $mod+9 workspace number 9
+    bindsym $mod+0 workspace number 10
+    # Move focused container to workspace
+    bindsym $mod+Shift+1 move container to workspace number 1
+    bindsym $mod+Shift+2 move container to workspace number 2
+    bindsym $mod+Shift+3 move container to workspace number 3
+    bindsym $mod+Shift+4 move container to workspace number 4
+    bindsym $mod+Shift+5 move container to workspace number 5
+    bindsym $mod+Shift+6 move container to workspace number 6
+    bindsym $mod+Shift+7 move container to workspace number 7
+    bindsym $mod+Shift+8 move container to workspace number 8
+    bindsym $mod+Shift+9 move container to workspace number 9
+    bindsym $mod+Shift+0 move container to workspace number 10
+    # Note: workspaces can have any name you want, not just numbers.
+    # We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+    # You can "split" the current object of your focus with
+    # $mod+b or $mod+v, for horizontal and vertical splits
+    # respectively.
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
+
+    # Switch the current container between different layout styles
+    bindsym $mod+s layout stacking
+    bindsym $mod+w layout tabbed
+    bindsym $mod+e layout toggle split
+
+    # Make the current focus fullscreen
+    bindsym $mod+f fullscreen
+
+    # Toggle the current focus between tiling and floating mode
+    bindsym $mod+Shift+space floating toggle
+
+    # Swap focus between the tiling area and the floating area
+    bindsym $mod+space focus mode_toggle
+
+    # Move focus to the parent container
+    bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+	# Move the currently focused window to the scratchpad
+    bindsym $mod+Shift+minus move scratchpad
+
+    # Show the next scratchpad window or hide the focused scratchpad window.
+    # If there are multiple scratchpad windows, this command cycles through them.
+    bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+	bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+#
+# Utilities:
+#
+    # Special keys to adjust volume via PulseAudio
+    bindsym --locked XF86AudioMute exec pactl set-sink-mute \@DEFAULT_SINK@ toggle
+    bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
+    bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
+    bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
+
+	# Media player controls
+	bindsym --locked XF86AudioPlay exec playerctl play-pause &
+	bindsym --locked XF86AudioPause exec playerctl play-pause &
+	bindsym --locked XF86AudioNext exec playerctl next &
+	bindsym --locked XF86AudioPrev exec playerctl prev &
+	bindsym --locked XF86AudioStop exec playerctl stop &
+
+    # Special keys to adjust brightness via brightnessctl
+    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
+
+	# System mode
+	set $system_mode System: (l)ock, (e)xit, (s)uspend, (h)ibernate, (r)eboot, (p)oweroff
+	mode "$system_mode" {
+	    bindsym l mode "default", exec swaylock -fFe -c `/home/jasper/.bin/rndrgb`
+	    bindsym e mode "default", exit
+	    bindsym s mode "default", exec "systemctl suspend"
+	    bindsym h mode "default", exec "systemctl hibernate"
+	    bindsym r mode "default", exec "systemctl reboot"
+	    bindsym p mode "default", exec "systemctl poweroff"
+
+	    bindsym Return mode "default"
+	    bindsym Escape mode "default"
+	    bindsym $mod+x mode "default"
+	}
+	bindsym $mod+x mode "$system_mode"
+
+    # Special key to take a screenshot with grim
+    bindsym Print exec grimshot copy area
+
+#
+# Status Bar:
+#
+bar {
+    status_command i3status-rs
+
+    colors {
+        statusline #ffffff
+        background #000000
+
+		focused_workspace  #4C7899 #285577 #FFFFFF
+        active_workspace   #333333 #222222 #FFFFFF
+        inactive_workspace #333333 #222222 #888888
+        urgent_workspace   #2F343A #900000 #FFFFFF
+        binding_mode       #2F343A #900000 #FFFFFF
+    }
+}
+
+#
+# Custom bindings:
+#
+
+	# Programs
+	bindsym $mod+Control+Return exec firefox
+
+
+#
+# Window rules
+#
+
+# apply mark for Xwayland and wayland native browser windows
+for_window [class="Chromium-browser"] mark Browser
+for_window [class="Brave-browser"] mark Browser
+for_window [class="firefox"]  mark Browser
+for_window [app_id="Chromium-browser"] mark Browser
+for_window [app_id="brave-browser"] mark Browser
+for_window [app_id="firefox"] mark Browser
+
+# inhibit scrensaver for fullscreen browser windows
+for_window [con_mark="Browser"] {
+    inhibit_idle fullscreen
+}
+
+# firefox wayland screensharing indicator
+for_window [app_id="firefox" title="Firefox — Sharing Indicator"] {
+    floating enable
+}
+
+for_window [app_id="org.mozilla.firefox" title="Extension: (Bitwarden Password Manager) - Bitwarden — Mozilla Firefox"] {
+	floating enable
+	move position center
+}
+
+for_window [app_id="pavucontrol"] {
+    floating enable
+    move position center
+}
+
+for_window [app_id="pavucontrol-qt"] {
+    floating enable
+    move position center
+}
+
+for_window [app_id="lxqt-policykit-agent"] {
+    floating enable
+    move position center
+}
+
+for_window {
+  [shell="xwayland"] title_format "%title [XWayland]"
+  [app_id="firefox"] inhibit_idle fullscreen
+  [app_id="mpv"] inhibit_idle fullscreen
+  [app_id="Vivaldi-stable"] inhibit_idle fullscreen
+  [app_id="ulauncher"] floating enable, border none
+  [window_role="pop-up"] floating enable
+  [window_role="bubble"] floating enable
+  [window_role="dialog"] floating enable
+  [window_type="dialog"] floating enable
+}
+
+hide_edge_borders vertical
+mouse_warping none
+#set the variables
+set {
+	$ii inhibit_idle focus
+	$popup floating enable; border pixel 1; sticky enable; shadows enable
+	$float floating enable; border pixel 1; shadows enable
+	$video inhibit_idle fullscreen; border none; max_render_time off
+	$important inhibit_idle open; floating enable; border pixel 1
+	$max inhibit_idle visible; floating enable; sticky enable; border pixel 1
+}
+for_window {
+#ii - inhibit_idle focus
+	[class="Cemu"] $ii
+	[instance="cemu"] $ii
+	[app_id="cemu"] $ii
+	[app_id="rpcs3"] $ii
+	[app_id="yuzu"] $ii
+	[class="yuzu"] $ii
+	[app_id="snes9x-gtk"] $ii
+
+#popup - floating enable; sticky enable
+	[app_id="firefox" title="^Picture-in-Picture$"] $popup
+	[app_id="firefox" title="Bitwarden"] $popup
+	[app_id="pavucontrol"] $popup
+
+#float - floating enable; border pixel 1
+	[window_role="pop-up,task_dialog,About"] $float; shadows enable
+	[window_type="dialog"] $float; shadows enable
+	[window_type="utility"] $float; shadows enable
+	[window_type="toolbar"] $float; shadows enable
+	[window_type="splash"] $float; shadows enable
+	[window_type="menu"] $float; shadows enable
+	[window_type="dropdown_menu"] $float; shadows enable
+	[window_type="popup_menu"] $float; shadows enable
+	[window_type="tooltip"] $float; shadows enable
+	[window_type="notification"] $float; shadows enable
+
+#video - inhibit_idle fullscreen; border none; max_render_time off
+	[app_id="mpv"] $video
+	[app_id="vlc"] $video
+	[class="firefox"] $video
+	[app_id="firefox"] $video
+
+#misc
+	[urgent=latest] focus
+	[floating] shadows enable
+	[app_id="alacritty"] saturation set 2; blur enable
+	[app_id="firefox" title="Firefox — Sharing Indicator"] floating enable; kill
+}
+
+exec /usr/libexec/sway-systemd/wait-sni-ready && \
+    systemctl --user start sway-xdg-autostart.target
+exec /usr/bin/xdg-user-dirs-update
+exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK

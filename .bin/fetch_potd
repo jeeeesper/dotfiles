@@ -1,0 +1,12 @@
+#!/bin/bash
+
+FEED_URL="http://feeds.feedburner.com/natgeotv/ca/featured/POD"
+
+THUMB_URL=$(curl $FEED_URL | grep -oP '(?<=src=&quot;)[^&]+(?=&quot;)' | shuf | head -n1)
+
+PREFIX=$(echo $THUMB_URL | grep -o "https.*/")
+NUM=$(echo $THUMB_URL | grep -oP "\d+")
+SUFFIX=$(echo $THUMB_URL | grep -oP "\.[^.]+\$")
+URL=$PREFIX$(($NUM-1))$SUFFIX
+
+wget $URL -O $HOME/wallpaper
