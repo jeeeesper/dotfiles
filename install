@@ -19,8 +19,13 @@ PROGRAMS=(
     "zsh"
 )
 
+REPOS=(
+    "atim/i3status-rust"
+)
+
 install_programs() {
     echo "Installing programs..."
+    sudo dnf copr enable -y "${REPOS[@]}"
     sudo dnf install -y "${PROGRAMS[@]}"
 }
 
@@ -31,8 +36,10 @@ stow_dotfiles() {
 }
 
 dl_omz() {
-    echo "Cloning OMZ..."
-    git clone "https://github.com/ohmyzsh/ohmyzsh.git" "$HOME/.oh-my-zsh"
+    if [ ! -d "$HOME/.oh-my-zsh" ]; then
+        echo "Cloning OMZ..."
+        git clone "https://github.com/ohmyzsh/ohmyzsh.git" "$HOME/.oh-my-zsh"
+    fi
 }
 
 main() {
