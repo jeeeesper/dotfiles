@@ -77,3 +77,4 @@ source ~/.zsh_aliases
 function mkd() {
   mkdir -p "$@" && cd "$@"
 }
+export PATH=$HOME/.local/bin:$PATH

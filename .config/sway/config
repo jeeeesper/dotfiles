@@ -22,7 +22,7 @@ exec swayidle -w \
 ### Input configuration
 input type:keyboard {
     xkb_layout "de"
-    xkb_options compose:caps
+    xkb_options compose:ins,caps:escape_shifted_capslock
     repeat_rate 40
     repeat_delay 220
 }

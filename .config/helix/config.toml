@@ -9,6 +9,10 @@ cursorline = true
 preview-completion-insert = false
 bufferline = "multiple"
 #copilot-auto-render = false # defaults to true if omitted
+end-of-line-diagnostics = "hint"
+
+[editor.inline-diagnostics]
+cursor-line = "warning" # show warnings and errors on the cursorline inline
 
 [editor.lsp]
 display-messages = true
@@ -26,9 +30,16 @@ render = true
 [editor.soft-wrap]
 enable = true
 
+[editor.statusline]
+left = ["mode", "spinner", "version-control", "file-name"]
+right = ["diagnostics", "selections", "register", "position", "position-percentage", "file-encoding"]
+
 #[keys.insert]
 #"C-w" = "copilot_apply_completion"  # technically only this mapping is necessary
 #"C-e" = "copilot_show_completion" # show a copilot completion  (if one exists) (only useful if auto-render is false)
 
-#[keys.normal]
+[keys.normal]
 #"C-e" = "copilot_toggle_auto_render"
+"A-," = "goto_previous_buffer"
+"A-." = "goto_next_buffer"
+"A-w" = ":buffer-close"
